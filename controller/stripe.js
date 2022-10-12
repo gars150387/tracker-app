@@ -3,7 +3,7 @@ const Stripe = require("stripe");
 const StripeTransaction = require("../models/StripeTransaction");
 require("dotenv").config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe("sk_test_51LkbrKA4UM3TTNMjTu4A67sbCDhvKVcGfuMl9pQjbiGpY7BToY5Qe47imaKXaLbxLbOIpHI553mQarRc1kyKtI2x00XdhdYx5L");
 
 const stripeCustomer = async (request, response) => {
   console.log(request.body);

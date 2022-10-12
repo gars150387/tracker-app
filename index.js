@@ -32,6 +32,6 @@ app.use('/api/article', require('./routes/article'))
 
 
 //escuchar peticiones
-app.listen( process.env.PORT, () => {
-    console.log('Server on Port', process.env.PORT )
+app.listen( 34001, () => {
+    console.log('Server on Port', 34001 )
 })
