@@ -1,7 +1,6 @@
 {
   "name": "testing-backend-app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -21,5 +20,14 @@
     "mongoose": "^6.5.4",
     "nodemon": "^2.0.19",
     "stripe": "^10.7.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gars150387/tracker-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gars150387/tracker-app/issues"
+  },
+  "homepage": "https://github.com/gars150387/tracker-app#readme",
+  "description": ""
 }
