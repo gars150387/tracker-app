@@ -3,7 +3,7 @@ const Stripe = require("stripe");
 const StripeTransaction = require("../models/StripeTransaction");
 require("dotenv").config();
 
-const stripe = new Stripe("sk_test_51LkbrKA4UM3TTNMjTu4A67sbCDhvKVcGfuMl9pQjbiGpY7BToY5Qe47imaKXaLbxLbOIpHI553mQarRc1kyKtI2x00XdhdYx5L");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const stripeCustomer = async (request, response) => {
   console.log(request.body);
@@ -20,6 +20,7 @@ const stripeCustomer = async (request, response) => {
       fullName: customer.name,
       email: customer.email,
       phone: customer.phone,
+      id: customer.id,
       customer,
     });
   } catch (error) {
@@ -32,44 +33,23 @@ const stripeCustomer = async (request, response) => {
 };
 
 const stripePaymentIntent = async (req, res) => {
-  const { device } = req.body;
+  const { device, customer } = req.body;
   const total = device * 200 * 100;
-  console.log({ total });
-
+  console.log(customer);
+  const customerId = customer;
   try {
-    // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
       currency: "usd",
       payment_method_types: ["card"],
       capture_method: "manual",
+      customer: customerId,
     });
-    console.log({ paymentIntent });
     res.send({
       clientSecret: paymentIntent.client_secret,
       payment_intent_id: paymentIntent.id,
       amount: paymentIntent.amount,
       paymentIntent,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const stripePaymentIntentConfirm = async (request, response) => {
-  console.log(request.body);
-  try {
-    const paymentIntent = await stripe.paymentIntents.confirm({
-      elements,
-    });
-    console.log({ paymentIntent });
-    response.send({
-      true: ok,
-      paymentIntent,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/confirmation",
-      },
     });
   } catch (error) {
     console.log(error);
@@ -119,9 +99,15 @@ const saveStripeTransaction = async (request, response) => {
 };
 
 const captureStripePaymentIntent = async (request, response) => {
-  const { id, amount } = request.body;
+  console.log('request', request.body)
+  const { id, amount_to_capture } = request.body;
+  console.log('total', amount_to_capture)
+  const totalToCapture = amount_to_capture * 100;
+  console.log( totalToCapture)
   try {
-    const paymentIntent = await stripe.paymentIntents.capture(id, {amount_capturable: amount});
+    const paymentIntent = await stripe.paymentIntents.capture(id, {
+      amount_to_capture: totalToCapture,
+    });
     response.status(201).json({
       ok: true,
       paymentIntent,

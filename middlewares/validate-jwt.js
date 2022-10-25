@@ -13,7 +13,7 @@ const validateJWT = (request, response = response, next) => {
   }
 
   try {
-    const { uid, name } = jwt.verify(token, "TRACK-1-INVENTORY-2-@CONTEXTGLOBAL-RECEIVERS-3-CONFERENCES-4");
+    const { uid, name } = jwt.verify(token, process.env.SECRET_JWT_SEED);
 
     request.uid = uid;
     request.name = name;

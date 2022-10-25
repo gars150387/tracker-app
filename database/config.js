@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const dbConnection = async () => {
   try {
-    await mongoose.connect("mongodb+srv://devitrack_app:vOcSbrRHUqtAIIZx@devitrackdb.3gjzkid.mongodb.net/devitrackdb");
+    await mongoose.connect(process.env.DB_CNN);
 
     console.log("DB Online");
   } catch (error) {
